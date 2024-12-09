@@ -52,14 +52,14 @@ order='["No Data", "Minimal", "Low", "Moderate", "High", "Very High"]'
 # Extract useful data from the JSON, grouping the data by activity level, listing the states for
 # each
 POST_TEXT=$(echo "$json_data" | jq -r --argjson order "$order" '
-    group_by(.activity_level_label) | 
-    sort_by([.[0].activity_level_label] | index($order[])) | 
+    group_by(.WVAL_Category) | 
+    sort_by([.[0].WVAL_Category] | index($order[])) | 
     .[] | 
     {
-        activity_level_label: .[0].activity_level_label, 
-        states: [.[] | .state_abbrev] | sort
+        WVAL_Category: .[0].WVAL_Category, 
+        states: [.[] | .State_Abbreviation] | sort
     } | 
-    "\( .activity_level_label ): \( .states | join(", ") )\n"')
+    "\( .WVAL_Category ): \( .states | join(", ") )\n"')
 
 # Print the output
 echo "$POST_TEXT"
